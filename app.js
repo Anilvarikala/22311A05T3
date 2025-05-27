@@ -92,81 +92,64 @@ const generateFibionacciNumbers = (windowSize) => {
 }
 
 app.get("/numbers/f", (req,res) => {
-    
     fetch("http://20.244.56.144/evaluation-service/fibonacci")
-    .then(responce => responce.json())
-    .then(data => {
-      let nums = generateFibionacciNumbers(windowSize)
-      let obj = {
-        "numbers" : nums,
-      }
-        res.statusCode(200).send({
-          "windowPrevState" : [],
-          "windowCurrState" : [],
-          "numbers" : obj.numbers,
-          "avg" : findAverage(obj.numbers),
-          
+    .then(response => response.json())
+    .catch(error => console.log('API error:', error))
+    .finally(() => {
+        let nums = generateFibionacciNumbers(windowSize);
+        res.status(200).json({
+            "windowPrevState" : [],
+            "windowCurrState" : [],
+            "numbers" : nums,
+            "avg" : findAverage(nums)
         });
-    })
-
+    });
 })
 
 app.get("/numbers/e", (req,res) => {
-
     fetch("http://20.244.56.144/evaluation-service/even")
-    .then(responce => responce.json())
-    .then(data => {
-      let nums = generateEvenNumbers(windowSize)
-      let obj = {
-        "numbers" : nums,
-      }
-        res.send({
-          "windowPrevState" : [],
-          "windowCurrState" : [],
-          "numbers" : obj.numbers,
-          "avg" : nums.reduce((a, b) => a + b, 0) / nums.length,
-          
+    .then(response => response.json())
+    .catch(error => console.log('API error:', error))
+    .finally(() => {
+        let nums = generateEvenNumbers(windowSize);
+        res.status(200).json({
+            "windowPrevState" : [],
+            "windowCurrState" : [],
+            "numbers" : nums,
+            "avg" : findAverage(nums)
         });
-    })
-
+    });
 })
 
 
 app.get("/numbers/p", (req,res) => {
-    fetch("http://20.244.56.144/evaluation-service/even")
-    .then(responce => responce.json())
-    .then(data => {
-      let nums = generatePrimeNumbers(windowSize)
-      let obj = {
-        "numbers" : nums,
-      }
-        res.send({
-          "windowPrevState" : [],
-          "windowCurrState" : [],
-          "numbers" : obj.numbers,
-          "avg" : nums.reduce((a, b) => a + b, 0) / nums.length,
-          
+    fetch("http://20.244.56.144/evaluation-service/prime")
+    .then(response => response.json())
+    .catch(error => console.log('API error:', error))
+    .finally(() => {
+        let nums = generatePrimeNumbers(windowSize);
+        res.status(200).json({
+            "windowPrevState" : [],
+            "windowCurrState" : [],
+            "numbers" : nums,
+            "avg" : findAverage(nums)
         });
-    })
-
+    });
 })
 
 app.get("/numbers/r", (req,res) => {
     fetch("http://20.244.56.144/evaluation-service/random")
-    .then(responce => responce.json())
-    .then(data => {
-      let nums = generateRandomNumbers(windowSize)
-      let obj = {
-        "numbers" : nums,
-      }
-        res.statusCode(200).send({
-          "windowPrevState" : [],
-          "windowCurrState" : [],
-          "numbers" : obj.numbers,
-          "avg" : nums.reduce((a, b) => a + b, 0) / nums.length,
+    .then(response => response.json())
+    .catch(error => console.log('API error:', error))
+    .finally(() => {
+        let nums = generateRandomNumbers(windowSize);
+        res.status(200).json({
+            "windowPrevState" : [],
+            "windowCurrState" : [],
+            "numbers" : nums,
+            "avg" : findAverage(nums)
         });
-    })
-
+    });
 })
 
 
