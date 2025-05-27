@@ -53,12 +53,14 @@ const generateRandomNumbers = (windowSize) => {
 
 function findAverage(numbers) {
   if (numbers.length == 0) return 0;
-  const sum = 0;
+  let sum = 0;
   for(let i=0;i<numbers.length;i++){
     sum += numbers[i];
   }
   return sum / numbers.length;
 }
+
+
 function isFibonnaci(num) {
   let a = 0, b = 1, c = 0;
   if (num === 0 || num === 1) return true;
@@ -71,23 +73,24 @@ function isFibonnaci(num) {
   
   return c === num;
 }
+
 const generateFibionacciNumbers = (windowSize) => {
-  //genereta random fibonacci
+  //generate random fibonacci
   if (windowSize <= 0) return [];
   const fibonacciNumbers = [];
-
   
-  let a = 0, b = 1;
-  let c = 0;
-  while(c > windowSize){
+  let count = 0;
+  while(count < windowSize){
     let val = Math.ceil(Math.random() * 1000);
     if(isFibonnaci(val)){
       fibonacciNumbers.push(val);
-      c++;
+      count++;
     }
   }
   
+  return fibonacciNumbers;
 }
+
 app.get("/numbers/f", (req,res) => {
     
     fetch("http://20.244.56.144/evaluation-service/fibonacci")
@@ -97,7 +100,7 @@ app.get("/numbers/f", (req,res) => {
       let obj = {
         "numbers" : nums,
       }
-        res.send({
+        res.statusCode(200).send({
           "windowPrevState" : [],
           "windowCurrState" : [],
           "numbers" : obj.numbers,
@@ -107,19 +110,9 @@ app.get("/numbers/f", (req,res) => {
     })
 
 })
+
 app.get("/numbers/e", (req,res) => {
-    // fetch("https://20.244.56.144/evaluation-service/even")
-    // .then(resp => resp.json())
-    // .then(data => {
-    //    let data1 = [
-    //     {
-    //       "numbers" : [2,4,6,8,10]
-    //     },
-    //   ]
-    //   console.log(data1)
-    //   res.send(data)
-    // })
-   // res.send("Welcome to the Average Calculator API");
+
     fetch("http://20.244.56.144/evaluation-service/even")
     .then(responce => responce.json())
     .then(data => {
@@ -166,12 +159,11 @@ app.get("/numbers/r", (req,res) => {
       let obj = {
         "numbers" : nums,
       }
-        res.send({
+        res.statusCode(200).send({
           "windowPrevState" : [],
           "windowCurrState" : [],
           "numbers" : obj.numbers,
           "avg" : nums.reduce((a, b) => a + b, 0) / nums.length,
-          
         });
     })
 
